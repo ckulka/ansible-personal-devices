@@ -1,0 +1,11 @@
+# Add Arch Linux specific packages
+---
+- name: AUR packages installed
+  aur:
+    name:
+      - chromium-widevine
+      - paper-gtk-theme-git
+      - paper-icon-theme-git
+      - rslsync
+      - spotify
+    skip_installed: yes

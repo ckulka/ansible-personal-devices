@@ -1,0 +1,13 @@
+---
+- name: Include packages
+  include_tasks: packages.yml
+
+- name: Include Arch packages
+  include_tasks: arch-packages.yml
+  when: ansible_distribution == 'Archlinux'
+
+- name: Include GNOME shell extensions
+  include_tasks: gnome-shell-extensions.yml
+
+- name: Include GNOME configuration
+  include_tasks: gnome-settings.yml

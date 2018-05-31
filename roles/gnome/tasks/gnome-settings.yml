@@ -1,0 +1,11 @@
+---
+- name: GNOME settings
+  command: gsettings set {{ item }}
+  with_items:
+    - org.gnome.desktop.interface gtk-theme Adapta
+    - org.gnome.desktop.interface icon-theme Paper
+    - org.gnome.shell.extensions.user-theme name Arc
+    - org.gnome.desktop.interface document-font-name 'Roboto 11'
+    - org.gnome.desktop.interface font-name 'Roboto 11'
+    - org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 12'
+    - org.gnome.desktop.wm.preferences titlebar-font 'Roboto 13'

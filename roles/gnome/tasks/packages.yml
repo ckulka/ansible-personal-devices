@@ -1,0 +1,14 @@
+---
+- name: Packages installed
+  become: yes
+  package:
+    name:
+      - adapta-gtk-theme
+      - arc-gtk-theme
+      - chromium
+      - chrome-gnome-shell
+      - gnome
+      - gnome-tweaks
+      - ttf-roboto
+      - ttf-ubuntu-font-family
+    state: present

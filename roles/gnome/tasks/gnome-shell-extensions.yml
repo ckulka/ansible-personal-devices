@@ -1,0 +1,48 @@
+# GNOME shell extensions
+---
+- name: Get GNOME shell version
+  command: gnome-shell --version
+  register: gnome_shell_version
+
+- name: Get GNOME shell extension info
+  command: curl -sS https://extensions.gnome.org/extension-info/?pk={{ item }}&shell_version={{ gnome_shell_version.stdout | regex_replace('^GNOME Shell ', '') }}
+  args:
+    warn: no
+  register: gnome_shell_extensions
+  with_items:
+    - 15  # alternate-tab
+    - 7   # drive-menu
+    - 600 # launch-new-instance
+    - 723 # pixel-saver
+    - 19  # user-theme
+
+- name: Parse GNOME shell extension info
+  set_fact:
+    info: "{{ item.stdout | from_json | json_query('{download_url: download_url, uuid: uuid}') }}"
+  register: gnome_shell_extensions
+  with_items: "{{ gnome_shell_extensions.results }}"
+
+- name: Parse GNOME shell extension info
+  set_fact:
+    gnome_shell_extensions: "{{ gnome_shell_extensions.results | map(attribute='ansible_facts.info') | list }}"
+
+- name: GNOME shell extension folder exists
+  file:
+    dest: "{{ ansible_env.HOME }}/local/share/gnome-shell/extensions/{{ item.uuid }}"
+    state: directory
+  with_items: "{{ gnome_shell_extensions }}"
+
+- name: Disable GNOME shell extensions
+  command: gnome-shell-extension-tool --disable-extension {{ item.uuid }}
+  with_items: "{{ gnome_shell_extensions }}"
+
+- name: Install GNOME shell extensions
+  unarchive:
+    dest: "{{ ansible_env.HOME }}/local/share/gnome-shell/extensions/{{ item.uuid }}"
+    remote_src: yes
+    src: https://extensions.gnome.org{{ item.download_url }}
+  with_items: "{{ gnome_shell_extensions }}"
+
+- name: Enable GNOME shell extensions
+  command: gnome-shell-extension-tool --enable-extension {{ item.uuid }}
+  with_items: "{{ gnome_shell_extensions }}"

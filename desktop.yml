@@ -1,0 +1,6 @@
+# Playbook for desktop devices
+---
+- hosts: all
+  roles:
+    - common
+    - gnome
