@@ -1,0 +1,9 @@
+---
+# The common role installs all packages I want to have on all my machines
+
+- name: Include Arch packages
+  include_tasks: arch-packages.yml
+  when: ansible_distribution == 'Archlinux'
+
+- name: Include Zsh
+  include_tasks: zsh.yml

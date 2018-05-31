@@ -1,0 +1,33 @@
+# Tasks to allow installations from AUR
+#
+# See
+# - https://wiki.archlinux.org/index.php/Arch_User_Repository
+# - https://github.com/kewlfft/ansible-aur
+---
+- name: Install base-devel
+  become: yes
+  pacman:
+    name: base-devel
+    state: present
+
+- name: Download ansible-aur-git
+  unarchive:
+    src: https://aur.archlinux.org/cgit/aur.git/snapshot/ansible-aur-git.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: Install ansible-aur-git
+  command: makepkg --clean --install --rmdeps --syncdeps --noconfirm
+  args:
+    chdir: /tmp/ansible-aur-git
+
+- name: Cleanup ansible-aur-git source files
+  file:
+    path: /tmp/ansible-aur-git
+    state: absent
+
+- name: Install Aurman
+  aur:
+    name: aurman
+    use: makepkg
+    skip_installed: yes

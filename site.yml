@@ -1,0 +1,5 @@
+---
+- name: Common configuration for all hosts
+  hosts: all
+  roles:
+    - common

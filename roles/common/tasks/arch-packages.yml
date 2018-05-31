@@ -1,0 +1,28 @@
+# Make sure the system and all my default packages are up to date
+---
+- name: System update (Pacman)
+  become: yes
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: Test if ansible-aur-git is installed
+  command: pacman -Qi ansible-aur-git
+  register: ansible_aur_git_installed
+  failed_when: ansible_aur_git_installed.rc != 0 and ansible_aur_git_installed.rc != 1
+
+- name: Include tasks to enable installations from AUR
+  include_tasks: arch-aur-enabled.yml
+  when: ansible_aur_git_installed.rc == 1
+
+- name: System update (AUR)
+  aur:
+    upgrade: yes
+
+- name: Additional AUR packages
+  aur:
+    name:
+      - ansible-aur-git
+      - aurman
+      - systemd-boot-pacman-hook
+    skip_installed: yes

@@ -1,0 +1,36 @@
+---
+- name: Install Zsh
+  become: yes
+  package:
+    name: zsh
+    state: present
+
+- name: Install oh-my-zsh
+  aur:
+    name: oh-my-zsh-git
+    skip_installed: yes
+  when: ansible_distribution == 'Archlinux'
+
+- name: Copy zshrc template
+  copy:
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    src: "{{ ansible_env.HOME }}/.oh-my-zsh/templates/zshrc.zsh-template"
+    remote_src: yes
+
+- name: Zsh theme
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    regexp: ^ZSH_THEME=
+    line: ZSH_THEME="terminalparty"
+
+- name: Zsh plugins enabled
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    regexp: ^  {{ item }}
+    line: "  {{ item }}"
+    insertafter: ^plugins=\(
+  with_items:
+    - aws
+    - docker
+    - git
+    - sudo
