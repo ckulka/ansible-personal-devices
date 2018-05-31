@@ -1,0 +1,27 @@
+# See https://wiki.archlinux.org/index.php/installation_guide#Locale
+---
+- name: Configure localizations
+  become: yes
+  lineinfile:
+    path: /etc/locale.gen
+    regexp: "{{ item }}"
+    line: "{{ item }}"
+  with_items:
+    - de_DE.UTF-8 UTF-8
+    - en_US.UTF-8 UTF-8
+
+- name: Generate localizations
+  become: yes
+  command: locale-gen
+
+- name: Set locale
+  become: yes
+  file:
+    dest: /etc/locale.conf
+    content: LANG=/de_DE.UTF-8
+
+- name: Keyboard layout
+  become: yes
+  copy:
+    dest: /etc/vconsole.conf
+    content: KEYMAP=de-latin1

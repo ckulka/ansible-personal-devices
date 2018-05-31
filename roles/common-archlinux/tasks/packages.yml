@@ -1,10 +1,16 @@
 # Make sure the system and all my default packages are up to date
 ---
-- name: System update (Pacman)
+- name: System update
   become: yes
   pacman:
     update_cache: yes
     upgrade: yes
+
+- name: Default packages
+  become: yes
+  pacman:
+    name: intel-ucode
+    state: present
 
 - name: Test if ansible-aur-git is installed
   command: pacman -Qi ansible-aur-git

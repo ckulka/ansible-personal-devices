@@ -1,7 +1,17 @@
-# The common role installs all packages I want to have on all my machines
+# Common role for all devices, i.e. linux distribution agnostic
 ---
-- name: Include Arch packages
-  include_tasks: arch-packages.yml
+- name: Include localization
+  include_tasks: localization.yml
+
+- name: Include network configuration
+  include_tasks: network.yml
+
+- name: Include packages
+  include_tasks: packages.yml
+
+- name: Include Arch Linux specific roles
+  include_role:
+    name: common-archlinux
   when: ansible_distribution == 'Archlinux'
 
 - name: Include Zsh

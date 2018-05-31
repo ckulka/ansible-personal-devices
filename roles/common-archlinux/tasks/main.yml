@@ -1,0 +1,7 @@
+# Common role for Arch Linux devices
+---
+- name: Include packages
+  include_tasks: packages.yml
+
+- name: Include systemd-boot
+  include_tasks: systemd-boot.yml

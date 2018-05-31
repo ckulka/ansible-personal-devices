@@ -35,9 +35,15 @@ ansible-playbook developer.yml --skip-tags java
 
 The `common` role handles standard system tasks:
 
-- Updates all packages
-- (Arch Linux) Enables AUR and adds [Aurman](https://github.com/polygamma/aurman)
-- Adds [Zsh](http://www.zsh.org/) and [Oh-My-ZSH](http://ohmyz.sh/)
+- Standard system configuration, e.g. localization
+- Adds [Git](https://git-scm.com/), [Zsh](http://www.zsh.org/) and [oh-my-zsh](http://ohmyz.sh/)
+- Includes the `common-archlinux` role on Arch Linux distributions
+
+### common-archlinux
+
+- Configures [Systemd-boot](https://wiki.archlinux.org/index.php/Systemd-boot)
+- Enables AUR and adds [Aurman](https://github.com/polygamma/aurman)
+- Updates all packages, including AUR
 
 ### gnome
 

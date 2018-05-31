@@ -1,0 +1,12 @@
+# See https://wiki.archlinux.org/index.php/installation_guide#Network_configuration
+---
+- name: localhost resolved in /etc/hosts
+  become: yes
+  lineinfile:
+    path: /etc/hosts
+    regexp: "{{ item }}"
+    line: "{{ item }}"
+  with_items:
+    - 127.0.0.1	localhost
+    - ::1		localhost
+    - 127.0.1.1	{{ ansible_hostname }}.localdomain	{{ ansible_hostname }}

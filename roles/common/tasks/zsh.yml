@@ -5,11 +5,15 @@
     name: zsh
     state: present
 
-- name: Install oh-my-zsh
+- name: Install oh-my-zsh (Arch Linux)
   aur:
     name: oh-my-zsh-git
     skip_installed: yes
   when: ansible_distribution == 'Archlinux'
+
+- name: Install oh-my-zsh (fallback)
+  command: sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  when: ansible_distribution != 'Archlinux'
 
 - name: Copy zshrc template
   copy:

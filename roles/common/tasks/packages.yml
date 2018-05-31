@@ -1,0 +1,9 @@
+# Linux distribution agnostic packages
+---
+- name: Default packages
+  become: yes
+  package:
+    name:
+      - curl
+      - git
+    state: present
