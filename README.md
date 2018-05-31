@@ -16,6 +16,19 @@ The `site.yml` playbook is for any device and uses the `common` role.
 
 The `desktop.yml` playbook is for desktop devices, e.g. laptops. It uses the `common` and `gnome` roles.
 
+### developer.yml
+
+The `developer.yml` playbook is for desktop devices on which I develop, e.g. laptops. It uses the `common`, `gnome` and all `*-developer` roles.
+
+Individual `<flavour>-developer` roles can be excluded by skipping the `<flavour>` tag:
+
+```bash
+ansible-playbook developer.yml --skip-tags <flavour>
+
+# Skip the java-developer role
+ansible-playbook developer.yml --skip-tags java
+```
+
 ## Roles
 
 ### common
