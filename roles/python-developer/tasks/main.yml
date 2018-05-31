@@ -1,0 +1,20 @@
+---
+# All tasks w.r.t developing Python applications
+
+- name: Python packages
+  become: yes
+  package:
+    name:
+      - docker
+      - docker-compose
+      - python
+      - python-pip
+    state: present
+
+- name: Python packages (AUR)
+  aur:
+    name:
+      - intellij-idea-ultimate-edition
+      - visual-studio-code-bin
+    skip_installed: yes
+  when: ansible_distribution == 'Archlinux'

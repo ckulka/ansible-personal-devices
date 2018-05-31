@@ -1,5 +1,2 @@
 # Ansible
 *.retry
-
-roles/java-developer
-roles/python-developer

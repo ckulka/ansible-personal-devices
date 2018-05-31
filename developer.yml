@@ -1,0 +1,12 @@
+# Playbook for devices on which I develop
+---
+- hosts: all
+  roles:
+    - common
+    - gnome
+    - role: java-developer
+      tags:
+        - java
+    - role: python-developer
+      tags:
+        - python
