@@ -1,6 +1,6 @@
 # See https://wiki.archlinux.org/index.php/Systemd-boot
 ---
-- name: Systemd-boot Loader configuration
+- name: Bootloader configuration
   become: yes
   copy:
     dest: /boot/loader/loader.conf
@@ -8,7 +8,7 @@
       default  arch
       editor   no
 
-- name: Systemd-boot Arch Linux loader
+- name: Arch Linux bootloader
   become: yes
   copy:
     dest: /boot/loader/entries/arch.conf
@@ -17,4 +17,22 @@
       linux   /vmlinuz-linux
       initrd  /intel-ucode.img
       initrd  /initramfs-linux.img
+      options root=LABEL=ArchLinux rw
+
+# See https://wiki.archlinux.org/index.php/System_maintenance#Install_the_linux-lts_package
+- name: Install LTS kernel
+  become: yes
+  pacman:
+    name: linux-lts
+    state: present
+
+- name: Arch Linux (LTS) bootloader
+  become: yes
+  copy:
+    dest: /boot/loader/entries/arch-lts.conf
+    content: |
+      title   Arch Linux (LTS)
+      linux   /vmlinuz-linux-lts
+      initrd  /intel-ucode.img
+      initrd  /initramfs-linux-lts.img
       options root=LABEL=ArchLinux rw
